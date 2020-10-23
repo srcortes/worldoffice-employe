@@ -117,6 +117,7 @@ public final class EmployeServiceImplement implements EmployeService {
 	public List<PooledSalaryRest> listPooledSalary() throws ManagerApiException {
 		try {
 		List<PooledSalaryDTO> pooledList = employeRepository.listPooledSalary();
+		
 		return pooledList.stream().map(j-> modelMapper.map(j, PooledSalaryRest.class)).collect(Collectors.toList());
 		}catch (Exception ex) {
 			log.error(DictionaryErrors.ERROR_INTERNAL_SERVER.getDescriptionError() + ex);
