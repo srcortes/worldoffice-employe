@@ -1,15 +1,19 @@
 package com.worldoffice.test.controller;
 import java.util.List;
 
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.worldoffice.test.exception.ManagerApiException;
+import com.worldoffice.test.json.EmployeByDepartmentRest;
 import com.worldoffice.test.json.EmployeHighSalaryRest;
 import com.worldoffice.test.json.PooledSalaryRest;
 import com.worldoffice.test.response.ManagerApiResponse;
@@ -55,5 +59,14 @@ public class EmployeController {
 		
 		return new ManagerApiResponse<>("Succes", String.valueOf(HttpStatus.OK), "OK",
 				employeService.listPooledSalary());
+	}
+	@ApiOperation(notes = "Service is responsable business rule #4", value = "Bussiness Rule#4")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = EmployeByDepartmentRest.class),
+			@ApiResponse(code = 500, message = "Internal Server Error", response = ManagerApiException.class) })
+	@GetMapping(value = "/getEmployeByDepartment/{idDepartment}")
+	public ManagerApiResponse<List<EmployeByDepartmentRest>> getEmployeByDepartment(@PathVariable("idDepartment") @Min(1) Long idDepartment) throws ManagerApiException{
+		
+		return new ManagerApiResponse<>("Succes", String.valueOf(HttpStatus.OK), "OK",
+				employeService.listEmployeByDepartement(idDepartment));
 	}
 }

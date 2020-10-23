@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.worldoffice.test.dao.EmployeDAO;
 import com.worldoffice.test.dto.DepartmentDTO;
+import com.worldoffice.test.dto.EmployeByDepartmentDTO;
 import com.worldoffice.test.dto.EmployeDTO;
 import com.worldoffice.test.dto.PooledSalaryDTO;
 import com.worldoffice.test.exception.ManagerApiException;
@@ -72,6 +73,17 @@ public class EmployeRepository implements EmployeDAO{
 			pooled.setNameDepartment(rs.getString("NAME_DEPARTMENT"));
 			
 			return pooled;			
+		});
+	}
+	@Override
+	public List<EmployeByDepartmentDTO> listEmployeByDepartment(Long idDepartment) throws ManagerApiException {
+		final String sqlListByDepartment = "SELECT E.FULL_NAME, D.NAME_DEPARTMENT  FROM MANAGER.EMPLOYE E " + 
+				" JOIN  MANAGER.DEPARTMENT D ON E.ID_DEPARTMENT = D.ID_DEPARTMENT WHERE E.ID_DEPARTMENT = "+idDepartment+"";
+		return template.query(sqlListByDepartment, (rs, rowNumber) -> {
+			EmployeByDepartmentDTO employeByDepartmentDTO = new EmployeByDepartmentDTO();
+			employeByDepartmentDTO.setFullName(rs.getString("FULL_NAME"));
+			employeByDepartmentDTO.setNameDepartment(rs.getString("NAME_DEPARTMENT"));
+			return employeByDepartmentDTO;
 		});
 	}
 }

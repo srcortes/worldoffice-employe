@@ -15,9 +15,11 @@ import com.worldoffice.test.constant.ConstantFileEmploye;
 import com.worldoffice.test.constants.ConstantGeneral;
 import com.worldoffice.test.dictionary.errors.DictionaryErrors;
 import com.worldoffice.test.dto.DepartmentDTO;
+import com.worldoffice.test.dto.EmployeByDepartmentDTO;
 import com.worldoffice.test.dto.EmployeDTO;
 import com.worldoffice.test.dto.PooledSalaryDTO;
 import com.worldoffice.test.exception.ManagerApiException;
+import com.worldoffice.test.json.EmployeByDepartmentRest;
 import com.worldoffice.test.json.EmployeHighSalaryRest;
 import com.worldoffice.test.json.PooledSalaryRest;
 import com.worldoffice.test.repositories.EmployeRepository;
@@ -124,5 +126,17 @@ public final class EmployeServiceImplement implements EmployeService {
 			throw new ManagerApiException(HttpStatus.INTERNAL_SERVER_ERROR,
 					DictionaryErrors.ERROR_INTERNAL_SERVER.getDescriptionError(), ex);
 		}	
+	}
+	@Override
+	public List<EmployeByDepartmentRest> listEmployeByDepartement(Long idDepartment) throws ManagerApiException {
+		try {
+			List<EmployeByDepartmentDTO> listEmployeByDep = employeRepository.listEmployeByDepartment(idDepartment);
+			
+			return listEmployeByDep.stream().map(j-> modelMapper.map(j, EmployeByDepartmentRest.class)).collect(Collectors.toList());
+		}catch(Exception e) {
+			log.error(DictionaryErrors.ERROR_INTERNAL_SERVER.getDescriptionError() + e);
+			throw new ManagerApiException(HttpStatus.INTERNAL_SERVER_ERROR,
+					DictionaryErrors.ERROR_INTERNAL_SERVER.getDescriptionError(), e);
+		}		
 	}
 }
