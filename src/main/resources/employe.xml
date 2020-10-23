@@ -1,0 +1,19 @@
+<beanio xmlns="http://www.beanio.org/2012/03">
+ <stream name="employe" format="csv">
+  <parser>
+   <property name="delimiter" value="," />
+   <property name="lineSeparator" value="\n" />
+   <property name="whitespaceAllowed" value="true" />
+  </parser>  
+  <record name="detail" minOccurs="0" maxOccurs="unbounded"
+   class="com.worldoffice.test.dto.EmployeDTO">   
+   <field name="fullName"/>
+    <field name="position"/>
+   <field name="salary"/>
+   <field name="fullTime"/>
+    <segment name="departmentDTO" class="com.worldoffice.test.dto.DepartmentDTO">      
+       <field name="nameDepartment"/>
+    </segment> 
+   </record>
+ </stream>
+</beanio>
