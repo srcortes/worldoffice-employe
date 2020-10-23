@@ -48,7 +48,7 @@ public class EmployeController {
 				employeService.listSalaryHigh());
 	}
 	@ApiOperation(notes = "Service is responsable business rule #3", value = "Bussiness Rule#3")
-	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = EmployeHighSalaryRest.class),
+	@ApiResponses({ @ApiResponse(code = 200, message = "Ok", response = PooledSalaryRest.class),
 			@ApiResponse(code = 500, message = "Internal Server Error", response = ManagerApiException.class) })
 	@GetMapping(value = "/getSalaryByDepartment")
 	public ManagerApiResponse<List<PooledSalaryRest>> getSalaryByDepartment() throws ManagerApiException{
