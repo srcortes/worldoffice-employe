@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public final class PooledSalaryRest {
+	@JsonProperty("Identificador Departemento")
+	private long idDepartment;
 	@JsonProperty("Suma Salarios")
 	private double salary;
 	@JsonProperty("Departamento")

@@ -65,10 +65,11 @@ public class EmployeRepository implements EmployeDAO{
 	}
 	@Override
 	public List<PooledSalaryDTO> listPooledSalary() throws ManagerApiException {
-		final String sqlListSalaryByDepartemnt = "SELECT SUM(SALARY) AS  SUM, D.NAME_DEPARTMENT  FROM MANAGER.EMPLOYE E " + 
-				" JOIN  MANAGER.DEPARTMENT D ON E.ID_DEPARTMENT = D.ID_DEPARTMENT GROUP BY (D.NAME_DEPARTMENT) ORDER BY D.NAME_DEPARTMENT ASC";
+		final String sqlListSalaryByDepartemnt = "SELECT D.ID_DEPARTMENT, SUM(SALARY) AS  SUM, D.NAME_DEPARTMENT  FROM MANAGER.EMPLOYE E " + 
+				" JOIN  MANAGER.DEPARTMENT D ON E.ID_DEPARTMENT = D.ID_DEPARTMENT GROUP BY (D.NAME_DEPARTMENT, D.ID_DEPARTMENT) ORDER BY D.NAME_DEPARTMENT ASC";
 		return template.query(sqlListSalaryByDepartemnt, (rs, rowNumber) -> {
 			PooledSalaryDTO pooled = new PooledSalaryDTO();
+			pooled.setIdDepartment(rs.getLong("ID_DEPARTMENT"));
 			pooled.setSalary(rs.getDouble("SUM"));
 			pooled.setNameDepartment(rs.getString("NAME_DEPARTMENT"));
 			
